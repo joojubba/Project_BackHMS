@@ -1,0 +1,38 @@
+﻿[
+  {
+    "RateId": 1,
+    "RateCode": "BAR",
+    "RatePrice": 250,
+    "RateDescription": "Rack Rate"
+  },
+  {
+    "RateId": 2,
+    "RateCode": "NET",
+    "RatePrice": 100,
+    "RateDescription": "Non-commissioned"
+  },
+  {
+    "RateId": 3,
+    "RateCode": "CORP",
+    "RatePrice": 160,
+    "RateDescription": "companies Rate"
+  },
+  {
+    "RateId": 4,
+    "RateCode": "LONG",
+    "RatePrice": 160,
+    "RateDescription": "Long Stay Rate - 15 days"
+  },
+  {
+    "RateId": 5,
+    "RateCode": "MON",
+    "RatePrice": 160,
+    "RateDescription": "Monthly Rate"
+  },
+  {
+    "RateId": 6,
+    "RateCode": "GRP",
+    "RatePrice": 160,
+    "RateDescription": "Group Rate"
+  }
+]
