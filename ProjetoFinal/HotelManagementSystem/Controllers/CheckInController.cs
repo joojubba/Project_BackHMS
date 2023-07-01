@@ -10,6 +10,7 @@ namespace HotelManagementSystem.Controllers
     [ApiController]
     public class CheckInController : ControllerBase
     {
+        //aqui puxo a reserva pelo id
         [HttpGet]
         [Route("{reservationId}")] 
         public async Task<IActionResult> getAllAsync(
@@ -24,12 +25,14 @@ namespace HotelManagementSystem.Controllers
 
             return reservations == null ? NotFound() : Ok(reservations);
         }
-
+        //aq consigo dar a entrada em uma uh selecionada
         [HttpPost]
         [Route("checkin")]
         public async Task<IActionResult> PostAsync(
         [FromServices] Context context,
+        [FromQuery] int roomNumber,
         [FromBody] int id
+
            )
         {
             if (!ModelState.IsValid) return BadRequest();        
@@ -43,18 +46,34 @@ namespace HotelManagementSystem.Controllers
     
                 if (reservations == null)
                     return NotFound("Reservation not found!");
-  
-                if (!reservations.Room.RoomAvailable)
+
+                var room = await context.Rooms
+                    .FirstOrDefaultAsync(r => r.RoomNumber == roomNumber);
+
+                if (room == null)
+                    return NotFound("Room not found!");
+
+                if (!room.RoomAvailable)
                     return BadRequest("Room is not available!");
 
              
                 reservations.ReservationStatus = ReservationStatus.CheckedIn;
-
-              
+                reservations.Room = room;
                 reservations.Room.RoomAvailable = false;
+                reservations.Room.Status = RoomStatus.OccupiedClean;
+
+                var status = room.Status;
+
+                // p converter o valor do enum em uma string
+                var statusString = status.ToString();
+
+                // retorno a string como parte da resposta
 
                 await context.SaveChangesAsync();
-                return Ok(reservations);
+                return Ok(new { Room = room, Status = statusString, reservations });
+        
+                // await context.SaveChangesAsync();
+                //return Ok(reservations);
 
             }
             catch (Exception ex) { return BadRequest(ex.Message); }

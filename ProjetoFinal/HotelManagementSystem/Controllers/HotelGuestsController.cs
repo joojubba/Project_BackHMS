@@ -69,23 +69,23 @@ namespace HotelManagementSystem.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var hg = await context.HotelGuests
+            var hotelGuests = await context.HotelGuests
                 .FirstOrDefaultAsync(x => x.HotelGuestId == id);
-            if (hg == null)
+            if (hotelGuests == null)
                 return NotFound("HotelGuest not found!");
 
             try
             {
-                hg.HotelGuestName = hotelGuest.HotelGuestName;
-                hg.HotelGuestIdentification = hotelGuest.HotelGuestIdentification;
-                hg.HotelGuestEmail = hotelGuest.HotelGuestEmail;
-                hg.HotelGuestPhone = hotelGuest.HotelGuestPhone;
-                hg.HotelGuestAddress = hotelGuest.HotelGuestAddress;
-                hg.DateBirthHotelGuest = hotelGuest.DateBirthHotelGuest;
+                hotelGuests.HotelGuestName = hotelGuest.HotelGuestName;
+                hotelGuests.HotelGuestIdentification = hotelGuest.HotelGuestIdentification;
+                hotelGuests.HotelGuestEmail = hotelGuest.HotelGuestEmail;
+                hotelGuests.HotelGuestPhone = hotelGuest.HotelGuestPhone;
+                hotelGuests.HotelGuestAddress = hotelGuest.HotelGuestAddress;
+                hotelGuests.DateBirthHotelGuest = hotelGuest.DateBirthHotelGuest;
 
-                context.HotelGuests.Update(hg);
+                context.HotelGuests.Update(hotelGuests);
                 await context.SaveChangesAsync();
-                return Ok(hg);
+                return Ok(hotelGuests);
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
@@ -97,18 +97,18 @@ namespace HotelManagementSystem.Controllers
         [FromRoute] int id
            )
         {
-            var hg = await context.HotelGuests
+            var hotelGuests = await context.HotelGuests
                 .FirstOrDefaultAsync(x => x.HotelGuestId == id);
 
-            if (hg == null)
+            if (hotelGuests == null)
                 return NotFound("HotelGuest not found!");
 
             try
             {
 
-                context.HotelGuests.Remove(hg);
+                context.HotelGuests.Remove(hotelGuests);
                 await context.SaveChangesAsync();
-                return Ok(hg);
+                return Ok(hotelGuests);
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }

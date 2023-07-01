@@ -32,9 +32,11 @@ namespace HotelManagementSystem
             modelBuilder.Entity<Rate>()
                 .Property(ra => ra.RatePrice)
                 .HasPrecision(18, 2);
+
             modelBuilder.Entity<Reservation>()
                 .Property(re => re.ReservationAmount)
                 .HasPrecision(18, 2);
+
             modelBuilder.Entity<User>()
                 .HasData(new User
                 {

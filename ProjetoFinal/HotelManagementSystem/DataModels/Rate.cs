@@ -1,4 +1,6 @@
-﻿namespace HotelManagementSystem.DataModels
+﻿using System.Text.Json.Serialization;
+
+namespace HotelManagementSystem.DataModels
 {
     public class Rate
     {
@@ -7,6 +9,7 @@
         public decimal RatePrice { get; set; }
         public string RateDescription { get; set; }
 
+        [JsonIgnore]
         public virtual Room Room { get; set; }
     }
 }

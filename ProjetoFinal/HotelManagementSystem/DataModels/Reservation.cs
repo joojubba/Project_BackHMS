@@ -1,4 +1,6 @@
-﻿namespace HotelManagementSystem.DataModels
+﻿using System.Text.Json.Serialization;
+
+namespace HotelManagementSystem.DataModels
 {
     public class Reservation
     {
@@ -12,10 +14,13 @@
         public ReservationStatus ReservationStatus { get; set; }
 
         public virtual HotelGuest HotelGuest { get; set; }
+        
         public virtual Rate Rate { get; set; }
+        
         public virtual Room Room { get; set; }
     }
 
+    //pra ser retirado do projeto final
     public enum ReservationStatus
     {
         Cancelled, 

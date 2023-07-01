@@ -3,6 +3,7 @@ using HotelManagementSystem.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelManagementSystem.Controllers
 {
@@ -16,39 +17,24 @@ namespace HotelManagementSystem.Controllers
         {
             this._jWTAuthenticationManager = jWTAuthenticationManager;
         }
-        [HttpGet("login")]
-        public string primeiraEndPoint()
-        {
-            return "aula";
-        }
 
-        [AllowAnonymous]
-        [HttpGet("segundo")]
-        public string segundoEndPoint()
+        [HttpGet("login")]    
+        public string loginEndPoint()
         {
-            return "aula de jwt";
-        }
+            return "Authorized";
+        }  
+
         [AllowAnonymous]
         [HttpPost("autenticar")]
-
         public IActionResult Authenticate([FromBody] User user)
 
         {
-
             var token = _jWTAuthenticationManager.Authenticate(user.Username, user.Password);
 
-
-
             if (token == null)
-
             {
-
                 return Unauthorized();
-
             }
-
-
-
             return Ok(token);
 
         }

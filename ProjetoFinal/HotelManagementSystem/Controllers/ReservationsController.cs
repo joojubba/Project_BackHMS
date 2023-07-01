@@ -12,6 +12,7 @@ namespace HotelManagementSystem.Controllers
     [ApiController]
     public class ReservationsController : ControllerBase
     {
+
         [HttpGet]
         [Route("reservations")]
         public async Task<IActionResult> getAllAsync(
@@ -41,7 +42,6 @@ namespace HotelManagementSystem.Controllers
             return reservations == null ? NotFound() : Ok(reservations);
         }
 
-        //calcular tarifa * noites
         [HttpPost]
         [Route("reservations")]
         public async Task<IActionResult> PostAsync(
@@ -53,41 +53,26 @@ namespace HotelManagementSystem.Controllers
 
             try
             {
+                // aqui consigo trazer o metodo de calcular reserva * noites
+              //  string roomType = reservation.Room.RoomType;
+                string rateCode = reservation.Rate.RateCode;
+                int nights = reservation.Nights;
 
+                decimal ratePrice = CalculateReservationAmount(context, rateCode, nights);
+
+                reservation.ReservationAmount = ratePrice;
+           
                 await context.Reservations.AddAsync(reservation);
                 await context.SaveChangesAsync();
                 return Created($"api/reservations/{reservation.ReservationId}", reservation);
 
             }
-            catch (Exception ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.InnerException);
+                return BadRequest(ex.Message); 
+            }
         }
-
-        /* [HttpPost]
-         [Route("reservations")]
-         public async Task<IActionResult> PostAsync(
-         [FromServices] Context context,
-         [FromBody] Reservation reservation
-            )
-         {
-             if (!ModelState.IsValid) return BadRequest();
-
-             try
-             {
-                 string roomType = reservation.Room.RoomType;
-                 string rateCode = reservation.Rate.RateCode;
-                 int numberGuests = reservation.NumberGuests;
-
-                 decimal ratePrice = CalculateRateAmount(context, rateCode, roomType, numberGuests);
-
-                 reservation.ReservationAmount = ratePrice;
-
-                 await context.Reservations.AddAsync(reservation);
-                 await context.SaveChangesAsync();
-                 return Created($"api/reservations/{reservation.ReservationId}", reservation);
-
-             }
-             catch (Exception ex) { return BadRequest(ex.Message); }
-         }*/
 
         [HttpPut]
         [Route("reservations/{id}")]
@@ -117,6 +102,7 @@ namespace HotelManagementSystem.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
+
         [HttpDelete]
         [Route("reservations/{id}")]
         public async Task<IActionResult> DeleteAsync(
@@ -139,35 +125,46 @@ namespace HotelManagementSystem.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
+     
+        //NESSA CONSEGUI, MAS TA CRIANDO MAIS UH E RATE
 
-        /*[HttpGet]
-        [Route("reservations/calculateRateAmount")]
-        public decimal CalculateRateAmount(Context context, string rateCode, string roomType, int numberGuests)
-        {
-            decimal ratePrice = 0;
+        [HttpGet]
+        [Route("reservations/calculateReservationAmount")]
+         public decimal CalculateReservationAmount(Context context, string rateCode, int nights)
+         {
+             decimal ratePrice = 0;
 
-            var rate = context.Rates.FirstOrDefault(r => r.RateCode == rateCode);
+             var rate = context.Rates.FirstOrDefault(r => r.RateCode == rateCode);
 
-            if (rate != null)
-            {
-                ratePrice = rate.RatePrice;
-            }
+             if (rate != null)
+             {
+                 ratePrice = rate.RatePrice;
+             }
 
-            switch (roomType)
-            {
-                case "TWN":
-                    ratePrice = numberGuests == 2 ? 46 : 0;
-                    break;
-                case "DBL":
-                    ratePrice = numberGuests == 2 ? 67 : 21;
-                    break;
-                case "DLX":
-                    ratePrice = numberGuests == 2 ? 88 : 42;
-                    break;
-            }
+             switch (rateCode)
+             {
+                 case "BAR":
+                     ratePrice = ratePrice * nights;
+                     break;
+                 case "NET":
+                     ratePrice = ratePrice * nights;
+                     break;
+                 case "CORP":
+                     ratePrice = ratePrice * nights;
+                     break;
+                 case "LONG":
+                     ratePrice = ratePrice * nights;
+                     break;
+                 case "MON":
+                     ratePrice = ratePrice * nights;
+                     break;
+                 case "GRP":
+                     ratePrice = ratePrice * nights;
+                     break;
+             }
 
-            return ratePrice;
-        }*/
-        
+             return ratePrice;
+
+         }
     }
 }

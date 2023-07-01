@@ -1,6 +1,7 @@
 using HotelManagementSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -36,6 +37,8 @@ namespace HotelManagementSystem
 
             builder.Services.AddDbContext<Context>();
 
+           
+
             //token
 
             //injeção de dependência
@@ -68,7 +71,7 @@ namespace HotelManagementSystem
             builder.Services.AddSingleton(tokenKey);
 
             //
-
+           
 
             var app = builder.Build();
 
@@ -81,12 +84,15 @@ namespace HotelManagementSystem
 
             app.UseHttpsRedirection();
 
+            //cors
+            app.UseRouting();
+           // app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             //JWT
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-            //ADD Politica de segurança
+            //
             app.UseCors(MyAllowSpecificOrigins);
 
             app.MapControllers();

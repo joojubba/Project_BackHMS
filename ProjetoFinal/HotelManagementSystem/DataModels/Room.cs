@@ -1,4 +1,6 @@
-﻿namespace HotelManagementSystem.DataModels
+﻿using System.Text.Json.Serialization;
+
+namespace HotelManagementSystem.DataModels
 {
     public class Room
     {
@@ -10,8 +12,8 @@
         public string RoomDescription { get; set; }
         public RoomStatus Status { get; set; }
 
-        public virtual ICollection<Rate> Rates { get; set; }
-
+        [JsonIgnore]
+        public virtual ICollection<Rate> Rates { get; set; } 
     }
     public enum RoomStatus
     {
