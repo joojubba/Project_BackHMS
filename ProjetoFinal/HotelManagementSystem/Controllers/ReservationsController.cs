@@ -20,6 +20,9 @@ namespace HotelManagementSystem.Controllers
         {
             var reservations = await context
                 .Reservations
+                .Include(hg => hg.HotelGuest)
+                .Include(ra => ra.Rate)
+                .Include(r => r.Room)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -35,7 +38,9 @@ namespace HotelManagementSystem.Controllers
         {
             var reservations = await context
                 .Reservations
-                .Include(ra => ra.Rate) //verificar as trf
+                .Include(hg => hg.HotelGuest)
+                .Include(ra => ra.Rate)
+                .Include(r => r.Room) //verificar as trf
                 .AsNoTracking()
                 .FirstOrDefaultAsync(ra => ra.ReservationId == id);
 
@@ -54,23 +59,23 @@ namespace HotelManagementSystem.Controllers
             try
             {
                 // aqui consigo trazer o metodo de calcular reserva * noites
-              //  string roomType = reservation.Room.RoomType;
+                //  string roomType = reservation.Room.RoomType;
                 string rateCode = reservation.Rate.RateCode;
                 int nights = reservation.Nights;
 
                 decimal ratePrice = CalculateReservationAmount(context, rateCode, nights);
 
                 reservation.ReservationAmount = ratePrice;
-           
+
                 await context.Reservations.AddAsync(reservation);
                 await context.SaveChangesAsync();
                 return Created($"api/reservations/{reservation.ReservationId}", reservation);
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.InnerException);
-                return BadRequest(ex.Message); 
+                return BadRequest(ex.Message);
             }
         }
 
@@ -84,7 +89,8 @@ namespace HotelManagementSystem.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var re = await context.Reservations
+            var re = await context
+                .Reservations
                 .FirstOrDefaultAsync(x => x.ReservationId == id);
             if (re == null)
                 return NotFound("Reservation not found!");
@@ -110,7 +116,8 @@ namespace HotelManagementSystem.Controllers
         [FromRoute] int id
            )
         {
-            var re = await context.Reservations
+            var re = await context
+                .Reservations
                 .FirstOrDefaultAsync(x => x.ReservationId == id);
 
             if (re == null)
@@ -134,7 +141,9 @@ namespace HotelManagementSystem.Controllers
          {
              decimal ratePrice = 0;
 
-             var rate = context.Rates.FirstOrDefault(r => r.RateCode == rateCode);
+             var rate = context
+                .Rates
+                .FirstOrDefault(r => r.RateCode == rateCode);
 
              if (rate != null)
              {

@@ -20,15 +20,13 @@ namespace HotelManagementSystem.DataModels
         public virtual Room Room { get; set; }
     }
 
-    //pra ser retirado do projeto final
+   
     public enum ReservationStatus
     {
+        Reserved,
         Cancelled, 
         CheckedIn,
         CheckedOut,
-        DueOut,
-        Reserved
-    }
-
-    
+        DueOut       
+    }    
 }

@@ -18,10 +18,10 @@ namespace HotelManagementSystem.DataModels
     public enum RoomStatus
     {
 
+        VacantClean,
         Blocked, 
         OccupiedClean,
-        OccupiedDirty,
-        VacantClean,
+        OccupiedDirty,      
         VacantDirty,
         NoShow,
         OutOrder,

@@ -86,7 +86,7 @@ namespace HotelManagementSystem
 
             //cors
             app.UseRouting();
-           // app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+      
             //JWT
             app.UseAuthentication();
 

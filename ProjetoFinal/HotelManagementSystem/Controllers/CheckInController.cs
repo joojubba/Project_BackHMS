@@ -10,21 +10,20 @@ namespace HotelManagementSystem.Controllers
     [ApiController]
     public class CheckInController : ControllerBase
     {
-        //aqui puxo a reserva pelo id
         [HttpGet]
-        [Route("{reservationId}")] 
-        public async Task<IActionResult> getAllAsync(
-        [FromServices] Context context,
-        [FromRoute] int reservationId
-            )
+        [Route("checkins")]
+        public async Task<IActionResult> getAllAsync([FromServices] Context context)
         {
             var reservations = await context
                 .Reservations
                 .Include(r => r.Room)
-                .FirstOrDefaultAsync(r => r.ReservationId == reservationId);
+                .Where(r => r.ReservationStatus == ReservationStatus.CheckedIn)
+                .ToListAsync();
 
             return reservations == null ? NotFound() : Ok(reservations);
         }
+
+
         //aq consigo dar a entrada em uma uh selecionada
         [HttpPost]
         [Route("checkin")]
@@ -40,7 +39,8 @@ namespace HotelManagementSystem.Controllers
             try
             {
              
-                var reservations = await context.Reservations
+                var reservations = await context
+                    .Reservations
                     .Include(r => r.Room)
                     .FirstOrDefaultAsync(r => r.ReservationId == id);
     
@@ -62,15 +62,17 @@ namespace HotelManagementSystem.Controllers
                 reservations.Room.RoomAvailable = false;
                 reservations.Room.Status = RoomStatus.OccupiedClean;
 
-                var status = room.Status;
+                var statusRoom = room.Status;
+                var statusReserv = reservations.ReservationStatus;
 
                 // p converter o valor do enum em uma string
-                var statusString = status.ToString();
+                var statusRoomString = statusRoom.ToString();
+                var statusReservString = statusReserv.ToString();
 
                 // retorno a string como parte da resposta
 
                 await context.SaveChangesAsync();
-                return Ok(new { Room = room, Status = statusString, reservations });
+                return Ok(new { Room = room, Status = statusRoomString, ReservationStatus = statusReservString, reservations });
         
                 // await context.SaveChangesAsync();
                 //return Ok(reservations);
