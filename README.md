@@ -54,7 +54,7 @@ de forma também funcional.
 É possível fazer verificar o status e fazer a alteração de status do quarto  pelo número dele, acredito que seja uma ação mais facilitadora para a governança e a recepção, por exemplo.
 
 🔸 Context:
-Gerencia a conexão com o banco de dados. Também deixei pré-definidos os usuários, os quartos e as tarifas para facilitar durante o desenvolvimento do projeto.
+  - Gerencia a conexão com o banco de dados. Também deixei pré-definidos os usuários, os quartos e as tarifas para facilitar durante o desenvolvimento do projeto.
 
 
 📚 Referências: 
