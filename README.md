@@ -26,7 +26,7 @@ Project Hotel Management System 🔻
 
 - Hóspedes: com os atributos -> Id, Nome, Email, Telefone, Endereço, Data de Nascimento;
 
-- Quartos: com os atributos -> Id, Número de quarto(UH), Capacidade pessoas, Tipo de quartom, Disponibilidade, Descrição e Status (Vacant Clean, Blocked, Occupied Clean, Occupied Dirty, Vacant Dirty, No Show, Out of Order, Out of Service);
+- Quartos: com os atributos -> Id, Número de quarto(UH), Capacidade pessoas, Tipo de quarto, Disponibilidade, Descrição e Status (Vacant Clean, Blocked, Occupied Clean, Occupied Dirty, Vacant Dirty, No Show, Out of Order, Out of Service);
 
 - Reservas: com os atributos -> Id, data de chegada, data de saída, Angência/Empresa, diárias, Número de pessoas, Total da reserva, Status da reserva (Reserved, Cancelled, Checked In, CheckedOut, Due Out );
 
@@ -38,17 +38,17 @@ Project Hotel Management System 🔻
 
 🔸 Nas Controllers:
   - Reservations:
-  No método POST é possível reservar com dados de hóspedes, de tarifas e quartos, onde é feito o cálculo do valor da tarifa pelo número de noites (diárias) do   hóspede.
+  No método POST é possível reservar com dados de hóspedes, de tarifas e quartos, onde é feito o cálculo do valor da tarifa pelo número de noites (diárias) do   hóspede. 
 
       ✨ Pontos de melhoria: para esse cálculo coloquei um metódo que usa o tipo da tarifa para calcular o valor total da tarifa (que deixei pré-definido na Context), mas não é muito viável em um projeto maior, tentei outras formas de calcular esse total de reserva, mas apresentou bastante erros. Então, decidi que seria uma melhor alternativa no momento aplicar dessa forma. Além disso, faltou implementar uma ação para impedir que sejam criadas tarifas e quartos toda vez que for reservar.
 
   - Check-In:
-É possível verificar as reservas que estão com status de check-in e realizar o procedimento de check-in no POST passando o número do Id da reserva e número do quarto.
+É possível verificar as reservas que estão com status de check-in e realizar o procedimento de check-in no POST passando o número do Id da reserva e número do quarto. Quando efetivado, o quarto torna-se indisponível e o status muda para ocupado limpo, o status de reserva também muda para checkin.
   - Check-Out:
-É possível verificar as reservas que estão com com status de check-out e realizar o procedimento de check-out no POST passando o número do quarto.
+É possível verificar as reservas que estão com com status de check-out e realizar o procedimento de check-out no POST passando o número do quarto. Quando efetivado, o quarto torna-se disponível novamente e o status muda para vago sujo, o status de reserva também muda para checkout.
 
     ✨ Pontos de melhoria: também em um projeto maior, seria mais interessente acrescentar outras formas de realizar esses procedimentos
-de forma também funcional.
+de forma também funcional. Além de trabalhar com os outros status do quarto e de reserva.
 
   - Housekeeping:
 É possível fazer verificar o status e fazer a alteração de status do quarto  pelo número dele, acredito que seja uma ação mais facilitadora para a governança e a recepção, por exemplo.
