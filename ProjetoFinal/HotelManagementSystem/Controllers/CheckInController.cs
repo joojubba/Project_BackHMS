@@ -23,8 +23,6 @@ namespace HotelManagementSystem.Controllers
             return reservations == null ? NotFound() : Ok(reservations);
         }
 
-
-        //aq consigo dar a entrada em uma uh selecionada
         [HttpPost]
         [Route("checkin")]
         public async Task<IActionResult> PostAsync(
@@ -37,8 +35,7 @@ namespace HotelManagementSystem.Controllers
             if (!ModelState.IsValid) return BadRequest();        
 
             try
-            {
-             
+            {         
                 var reservations = await context
                     .Reservations
                     .Include(r => r.Room)
@@ -65,18 +62,12 @@ namespace HotelManagementSystem.Controllers
                 var statusRoom = room.Status;
                 var statusReserv = reservations.ReservationStatus;
 
-                // p converter o valor do enum em uma string
                 var statusRoomString = statusRoom.ToString();
                 var statusReservString = statusReserv.ToString();
-
-                // retorno a string como parte da resposta
 
                 await context.SaveChangesAsync();
                 return Ok(new { Room = room, Status = statusRoomString, ReservationStatus = statusReservString, reservations });
         
-                // await context.SaveChangesAsync();
-                //return Ok(reservations);
-
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }

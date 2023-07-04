@@ -10,9 +10,6 @@ namespace HotelManagementSystem.Controllers
     [ApiController]
     public class CheckOutController : ControllerBase
     {
-        //aqui  vejo qm ta out
-
-       
 
         [HttpGet]
         [Route("checkouts")]
@@ -27,7 +24,6 @@ namespace HotelManagementSystem.Controllers
             return reservations == null ? NotFound() : Ok(reservations);
         }
        
-        //aq consigo dar o out com o num da uh
         [HttpPost]
         [Route("checkouts/{roomNumber}")]
         public async Task<IActionResult> PostAsync(
@@ -41,7 +37,7 @@ namespace HotelManagementSystem.Controllers
                 .FirstOrDefaultAsync(r => r.Room.RoomNumber == roomNumber && r.ReservationStatus == ReservationStatus.CheckedIn);
 
             if (reservations == null)
-                return NotFound("No hotelguest checked in to this room!");
+                return NotFound("No hotelguest checked into this room!");
             
             var rooms = await context
                 .Rooms
@@ -49,9 +45,7 @@ namespace HotelManagementSystem.Controllers
 
             if (rooms == null)
                 return NotFound("Room not found!");
-
-            
-
+         
 
             reservations.ReservationStatus = ReservationStatus.CheckedOut;
             reservations.Room.RoomAvailable = true;
@@ -63,13 +57,11 @@ namespace HotelManagementSystem.Controllers
             var statusRoom = rooms.Status;
             var statusReserv = reservations.ReservationStatus;
 
-            // p converter o valor do enum em uma string
             var statusRoomString = statusRoom.ToString();
             var statusReservString = statusReserv.ToString();
 
-            // retorno a string como parte da resposta
-
             await context.SaveChangesAsync();
+
             return Ok(new { Room = rooms, Status = statusRoomString, ReservationStatus = statusReservString, reservations });
         }
     }

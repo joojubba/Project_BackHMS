@@ -13,7 +13,7 @@ namespace HotelManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //não seguro 
+          
             var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
             builder.Services.AddCors(options =>
             {
@@ -26,7 +26,7 @@ namespace HotelManagementSystem
             }
             );
 
-            // 
+         
 
             // Add services to the container.
 
@@ -39,16 +39,12 @@ namespace HotelManagementSystem
 
            
 
-            //token
-
-            //injeção de dependência
             builder.Services.AddScoped<IJWTAuthenticationManager, JWTAuthenticationManager>();
-            // Define a chave simetrica usada p assinar e verificar tokens JWT
             var tokenKey = "u1EqRT6ousCxCIzVHJak2L1UurLLHdbrA1vzWnboq5o=";
             var key = Encoding.ASCII.GetBytes(tokenKey);
-            // adc o middleware de autenticação ao pipeline de requisição
+ 
             builder.Services.AddAuthentication(x =>
-            {// define o esquema de autenticação padrão como JWT Bearer
+            {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             })
@@ -70,8 +66,7 @@ namespace HotelManagementSystem
 
             builder.Services.AddSingleton(tokenKey);
 
-            //
-           
+          
 
             var app = builder.Build();
 
@@ -84,15 +79,15 @@ namespace HotelManagementSystem
 
             app.UseHttpsRedirection();
 
-            //cors
+           
             app.UseRouting();
       
-            //JWT
+            
             app.UseAuthentication();
 
             app.UseAuthorization();
 
-            //
+            
             app.UseCors(MyAllowSpecificOrigins);
 
             app.MapControllers();

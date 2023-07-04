@@ -107,9 +107,6 @@ namespace HotelManagementSystem.Controllers
                 return Ok(ra);
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
-        }
-
-      
+        }      
     }
-
 }

@@ -15,15 +15,15 @@ namespace HotelManagementSystem.Controllers
         [FromServices] Context context,
         [FromRoute] int roomNumber
            )
-        {  //pela uh consigo ver o status da uh
+        { 
             var rooms = await context
                .Rooms
                .FirstOrDefaultAsync(r => r.RoomNumber == roomNumber);
 
-
             return rooms == null ? NotFound() : Ok(rooms.Status.ToString());
 
         }
+
         [HttpPost]
         [Route("{roomNumber}")]
         public async Task<IActionResult> PostAsync(
@@ -34,7 +34,6 @@ namespace HotelManagementSystem.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
             
-            //aq posso alterar o status
             var rooms = await context
                 .Rooms
                 .FirstOrDefaultAsync(r => r.RoomNumber == roomNumber);
@@ -50,9 +49,7 @@ namespace HotelManagementSystem.Controllers
 
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
-
-           
-
+          
         }
     }
 }

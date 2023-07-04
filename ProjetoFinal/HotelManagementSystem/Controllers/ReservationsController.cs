@@ -40,7 +40,7 @@ namespace HotelManagementSystem.Controllers
                 .Reservations
                 .Include(hg => hg.HotelGuest)
                 .Include(ra => ra.Rate)
-                .Include(r => r.Room) //verificar as trf
+                .Include(r => r.Room)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(ra => ra.ReservationId == id);
 
@@ -58,8 +58,6 @@ namespace HotelManagementSystem.Controllers
 
             try
             {
-                // aqui consigo trazer o metodo de calcular reserva * noites
-                //  string roomType = reservation.Room.RoomType;
                 string rateCode = reservation.Rate.RateCode;
                 int nights = reservation.Nights;
 
@@ -133,8 +131,6 @@ namespace HotelManagementSystem.Controllers
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
      
-        //NESSA CONSEGUI, MAS TA CRIANDO MAIS UH E RATE
-
         [HttpGet]
         [Route("reservations/calculateReservationAmount")]
          public decimal CalculateReservationAmount(Context context, string rateCode, int nights)
@@ -171,9 +167,7 @@ namespace HotelManagementSystem.Controllers
                      ratePrice = ratePrice * nights;
                      break;
              }
-
              return ratePrice;
-
          }
     }
 }

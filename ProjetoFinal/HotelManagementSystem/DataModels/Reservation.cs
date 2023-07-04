@@ -20,7 +20,6 @@ namespace HotelManagementSystem.DataModels
         public virtual Room Room { get; set; }
     }
 
-   
     public enum ReservationStatus
     {
         Reserved,
