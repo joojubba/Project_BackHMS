@@ -65,3 +65,5 @@ de forma também funcional.
 
 - <a href="https://learn.microsoft.com/pt-br/ef/ef6/modeling/code-first/workflows/new-database">Code First para um novo banco de dados</a>
 
+- <a href="https://github.com/Ernakh/academia_AtosUFN_DotNet_4/blob/main/02-conteudo-aula/RestAPI.pdf">Rest API</a>
+
