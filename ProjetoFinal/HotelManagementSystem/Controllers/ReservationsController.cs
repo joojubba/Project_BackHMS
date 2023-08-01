@@ -23,6 +23,7 @@ namespace HotelManagementSystem.Controllers
                 .Include(hg => hg.HotelGuest)
                 .Include(ra => ra.Rate)
                 .Include(r => r.Room)
+                .Include(p => p.Payment)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -41,6 +42,7 @@ namespace HotelManagementSystem.Controllers
                 .Include(hg => hg.HotelGuest)
                 .Include(ra => ra.Rate)
                 .Include(r => r.Room)
+                .Include(p => p.Payment)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(ra => ra.ReservationId == id);
 
@@ -56,12 +58,14 @@ namespace HotelManagementSystem.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
+            
             try
             {
+              
                 reservation.Nights = CalculateNights(reservation.Arrival, reservation.Departure);
                 if (reservation.Arrival < DateTime.Today || reservation.Departure < reservation.Arrival)
                 {
-                    return BadRequest("INVALID DATE");
+                    return BadRequest("Invalid Date!");
                 }
 
                 string rateCode = reservation.Rate.RateCode;
@@ -106,7 +110,7 @@ namespace HotelManagementSystem.Controllers
                 reservation.Nights = CalculateNights(reservation.Arrival, reservation.Departure);
                 if (reservation.Arrival < DateTime.Today || reservation.Departure < reservation.Arrival)
                 {
-                    return BadRequest("INVALID DATE");
+                    return BadRequest("Invalid Date!");
                 }
                
 

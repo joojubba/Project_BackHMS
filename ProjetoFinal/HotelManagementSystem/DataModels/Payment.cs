@@ -7,3 +7,5 @@
         public string PaymentMethod { get; set; }
     }
 }
+
+//inserir a regra para os tipos de metodos de pagamentos

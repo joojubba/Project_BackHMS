@@ -17,6 +17,7 @@ namespace HotelManagementSystem.Controllers
             var reservations = await context
                 .Reservations
                 .Include(r => r.Room)
+                .Include(p => p.Payment)
                 .Where(r => r.ReservationStatus == ReservationStatus.CheckedIn)
                 .ToListAsync();
 

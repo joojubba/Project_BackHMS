@@ -18,6 +18,8 @@ namespace HotelManagementSystem.DataModels
         public virtual Rate Rate { get; set; }
         
         public virtual Room Room { get; set; }
+
+        public virtual Payment Payment { get; set; }
     }
 
     public enum ReservationStatus
@@ -26,6 +28,7 @@ namespace HotelManagementSystem.DataModels
         Cancelled, 
         CheckedIn,
         CheckedOut,
-        DueOut       
+        DueOut,
+        OpenFolio
     }    
 }
