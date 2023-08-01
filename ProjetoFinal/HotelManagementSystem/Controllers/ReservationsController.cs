@@ -58,6 +58,12 @@ namespace HotelManagementSystem.Controllers
 
             try
             {
+                reservation.Nights = CalculateNights(reservation.Arrival, reservation.Departure);
+                if (reservation.Arrival < DateTime.Today || reservation.Departure < reservation.Arrival)
+                {
+                    return BadRequest("INVALID DATE");
+                }
+
                 string rateCode = reservation.Rate.RateCode;
                 int nights = reservation.Nights;
 
@@ -93,8 +99,17 @@ namespace HotelManagementSystem.Controllers
             if (re == null)
                 return NotFound("Reservation not found!");
 
+
+
             try
             {
+                reservation.Nights = CalculateNights(reservation.Arrival, reservation.Departure);
+                if (reservation.Arrival < DateTime.Today || reservation.Departure < reservation.Arrival)
+                {
+                    return BadRequest("INVALID DATE");
+                }
+               
+
                 re.Arrival = reservation.Arrival;
                 re.Departure = reservation.Departure;
                 re.Source = reservation.Source;
@@ -130,44 +145,51 @@ namespace HotelManagementSystem.Controllers
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
-     
+
         [HttpGet]
         [Route("reservations/calculateReservationAmount")]
-         public decimal CalculateReservationAmount(Context context, string rateCode, int nights)
-         {
-             decimal ratePrice = 0;
+        public decimal CalculateReservationAmount(Context context, string rateCode, int nights)
+        {
+            decimal ratePrice = 0;
 
-             var rate = context
-                .Rates
-                .FirstOrDefault(r => r.RateCode == rateCode);
+            var rate = context
+               .Rates
+               .FirstOrDefault(r => r.RateCode == rateCode);
 
-             if (rate != null)
-             {
-                 ratePrice = rate.RatePrice;
-             }
+            if (rate != null)
+            {
+                ratePrice = rate.RatePrice;
+            }
 
-             switch (rateCode)
-             {
-                 case "BAR":
-                     ratePrice = ratePrice * nights;
-                     break;
-                 case "NET":
-                     ratePrice = ratePrice * nights;
-                     break;
-                 case "CORP":
-                     ratePrice = ratePrice * nights;
-                     break;
-                 case "LONG":
-                     ratePrice = ratePrice * nights;
-                     break;
-                 case "MON":
-                     ratePrice = ratePrice * nights;
-                     break;
-                 case "GRP":
-                     ratePrice = ratePrice * nights;
-                     break;
-             }
-             return ratePrice;
-         }
+            switch (rateCode)
+            {
+                case "BAR":
+                    ratePrice = ratePrice * nights;
+                    break;
+                case "NET":
+                    ratePrice = ratePrice * nights;
+                    break;
+                case "CORP":
+                    ratePrice = ratePrice * nights;
+                    break;
+                case "LONG":
+                    ratePrice = ratePrice * nights;
+                    break;
+                case "MON":
+                    ratePrice = ratePrice * nights;
+                    break;
+                case "GRP":
+                    ratePrice = ratePrice * nights;
+                    break;
+            }
+            return ratePrice;
+        }
+
+        [HttpGet]
+        [Route("reservations/calculateNights")]
+        public int CalculateNights(DateTime arrival, DateTime departure)
+        {
+            return (departure - arrival).Days;
+        }
     }
 }
